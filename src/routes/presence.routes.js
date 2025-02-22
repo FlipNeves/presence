@@ -1,5 +1,5 @@
 import express from 'express';
-import { registerPresence, getAllPresences } from '../services/presence.service.js';
+import { registerPresence, getAllPresences, deleteTestsPresence } from '../services/presence.service.js';
 
 const presenceRouter = express.Router();
 
@@ -18,6 +18,15 @@ presenceRouter.get('/', async (req, res) => {
     try {
         const presences = await getAllPresences();
         res.status(200).json(presences);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+presenceRouter.delete('/', async (req, res) => {
+    try {
+        await deleteTestsPresence();
+        res.status(204).end();
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
